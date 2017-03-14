@@ -16,8 +16,7 @@ endif()
 find_package(OpenSSL REQUIRED)
 find_package(CUDA REQUIRED)
 
-set(CMAKE_VERBOSE_MAKEFILE ON)
-
+#set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CUDA_NVCC_FLAGS "")
 file(GLOB CUDASRCFILES "nvcc_code/*.cu")
 cuda_add_library(cuda_code ${CUDASRCFILES})

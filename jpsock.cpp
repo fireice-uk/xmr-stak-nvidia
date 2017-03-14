@@ -33,7 +33,7 @@
 #include "socks.h"
 #include "socket.h"
 
-#define AGENTID_STR "xmr-stak-nvidia/1.3"
+#define AGENTID_STR "xmr-stak-nvidia/1.3.1"
 
 using namespace rapidjson;
 
