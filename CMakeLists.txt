@@ -1,0 +1,35 @@
+project(xmr-stak-nvidia)
+
+cmake_minimum_required(VERSION 2.8.10)
+
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
+        message(FATAL_ERROR "GCC version must be at least 5.1!")
+    endif()
+endif()
+
+find_library(MHTD NAMES microhttpd)
+if("${MHTD}" STREQUAL "MHTD-NOTFOUND")
+    message(FATAL_ERROR "libmicrohttpd is required")
+endif()
+
+find_package(OpenSSL REQUIRED)
+find_package(CUDA REQUIRED)
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+set(CUDA_NVCC_FLAGS "")
+file(GLOB CUDASRCFILES "nvcc_code/*.cu")
+cuda_add_library(cuda_code ${CUDASRCFILES})
+
+set(CMAKE_C_FLAGS "-DNDEBUG -march=westmere -O3 -m64 -s")
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11")
+
+set(EXECUTABLE_OUTPUT_PATH "bin")
+
+file(GLOB SOURCES "crypto/*.c" "crypto/*.cpp" "*.cpp")
+
+add_executable(xmr-stak-nvidia ${SOURCES})
+target_link_libraries(xmr-stak-nvidia cuda_code pthread microhttpd crypto ssl)
+ 
+
