@@ -28,15 +28,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef CONF_NO_TLS
-	if(prv->configValues[bTlsMode]->GetBool())
-	{
-		printer::inst()->print_msg(L0,
-			"Invalid config file. TLS enabled while the application has been compiled without TLS support.");
-		return false;
-	}
-#endif // CONF_NO_TLS
-
 #ifdef _WIN32
 #define strcasecmp _stricmp
 #include <intrin.h>
@@ -402,6 +393,15 @@ bool jconf::parse_config(const char* sFilename)
 			"Invalid config file. httpd_port has to be in the range 0 to 65535.");
 		return false;
 	}
+
+#ifdef CONF_NO_TLS
+	if(prv->configValues[bTlsMode]->GetBool())
+	{
+		printer::inst()->print_msg(L0,
+			"Invalid config file. TLS enabled while the application has been compiled without TLS support.");
+		return false;
+	}
+#endif // CONF_NO_TLS
 
 	printer::inst()->set_verbose_level(prv->configValues[iVerboseLevel]->GetUint64());
 	return true;
