@@ -8,8 +8,10 @@
  * index         - GPU index number usually starts from 0.
  * threads       - Number of GPU threads (nothing to do with CPU threads).
  * blocks        - Number of GPU blocks (nothing to do with CPU threads).
- * bfactor       - Enables running the Cryptonight kernel in smaller pieces. Increase if you want to reduce GPU lag.
- * bsleep        - Insert a delay of X microseconds between kernel launches. Increase if you want to reduce GPU lag.
+ * bfactor       - Enables running the Cryptonight kernel in smaller pieces. 
+ *                 Increase if you want to reduce GPU lag. Recommended setting on GUI systems - 8
+ * bsleep        - Insert a delay of X microseconds between kernel launches. 
+ *                 Increase if you want to reduce GPU lag. Recommended setting on GUI systems - 100
  * affine_to_cpu - This will affine the thread to a CPU. This can make a GPU miner play along nicer with a CPU miner.
  */
 "gpu_threads_conf" : [ 

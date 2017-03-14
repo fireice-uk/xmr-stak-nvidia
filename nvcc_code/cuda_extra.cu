@@ -4,10 +4,6 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 
-#ifndef _WIN32
-#include <unistd.h>
-#endif
-
 #ifdef __CUDACC__
 __constant__
 #else
