@@ -141,12 +141,6 @@ minethd::minethd(miner_work& pWork, size_t iNo, const jconf::thd_cfg& cfg)
 	ctx.device_bfactor = (int)cfg.bfactor;
 	ctx.device_bsleep = (int)cfg.bsleep;
 	
-	if(cuda_get_deviceinfo(&ctx) != 1 || cryptonight_extra_cpu_init(&ctx) != 1)
-	{
-		printer::inst()->print_msg(L0, "Setup failed for GPU %d. Exitting.\n", (int)iNo);
-		std::exit(0);
-	}
-
 	oWorkThd = std::thread(&minethd::work_main, this);
 }
 
@@ -237,6 +231,12 @@ void minethd::work_main()
 	uint32_t iNonce;
 
 	iConsumeCnt++;
+
+	if(cuda_get_deviceinfo(&ctx) != 1 || cryptonight_extra_cpu_init(&ctx) != 1)
+	{
+		printer::inst()->print_msg(L0, "Setup failed for GPU %d. Exitting.\n", (int)iThreadNo);
+		std::exit(0);
+	}
 
 	while (bQuit == 0)
 	{
