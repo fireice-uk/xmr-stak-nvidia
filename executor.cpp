@@ -454,7 +454,7 @@ void executor::ex_main()
 
 				for (i = 0; i < pvThreads->size(); i++)
 				{
-					fTelem = telem->calc_telemetry_data(2500, i);
+					fTelem = telem->calc_telemetry_data(10000, i);
 					if(std::isnormal(fTelem))
 					{
 						fHps += fTelem;
