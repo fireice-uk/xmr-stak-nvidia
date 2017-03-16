@@ -21,32 +21,33 @@ Hash: SHA256
 Windows binary release checksums
 
 sha1sum
-738b125dc05bb18d427c15337ae63cdb1a888d7d  xmr-stak-nvidia.exe
-031f4fed9ebbc5612431edc8d5b4cc001548b91a  xmr-stak-nvidia-notls.exe
+eef10937dc705a54b85b19f6f91e45d3748e7af3  xmr-stak-nvidia.exe
+71b92b64727042607ed80c0f32dff4e7b9306381  xmr-stak-nvidia-notls.exe
 a4c5aefbf0af000dca264c3342a68fa41fb6e272  cudart64_80.dll
 d34a0ba0dd7b3b1f900a7e02772e197e974b4a73  libeay32.dll
 2ee9966a0fc163da58408d91be36b84fa287c10b  ssleay32.dll
 
 sha3sum
-8bf2eaf737a34045158dbf4f2d241823297778f98026e35ef889bbb6  xmr-stak-nvidia.exe
-c13d045c5a21c2dbc449bd61ac898b9e54bf736fef065171efd9443e  xmr-stak-nvidia-notls.exe
+56849450e3b1fd510b7e1968812aafb12ed8f67dbe65bc0a72c8d62f  xmr-stak-nvidia.exe
+7e26dc72197b8eb746dc826cb23358abe593dc80157caff00d094c73  xmr-stak-nvidia-notls.exe
 571633217a1592d56239d0a55c046b0e3e38cd68548b141b830a44c6  cudart64_80.dll
 133c065d9ef2c93396382e2ba5d8c3ca8c6a57c6beb0159cb9a4b6c5  ssleay32.dll
 05003137a87313c81d6c348c9b96411c95d48dc22c35f36c39129747  libeay32.dll
 
 date
-Wed 15 Mar 17:11:57 GMT 2017
+Thu 16 Mar 00:29:17 GMT 2017
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQEcBAEBCAAGBQJYyXYtAAoJEPsk95p+1Bw03x4H/253sh3zPblxk6yQoHG8+exp
-kgj9ke1nx8yWDmBv+xnh+iIDw81OcNQ63X4Pe5T0jgdfcdStqe/y5wncmB/WOXzT
-IYd72Sm4cM1Au/U2+a7qgph5e3rB4o863GOx7UgqR6xeY6N0eM/SIEVsS2Pm1pgm
-OQQARyh3g+x48bbarNb+FC7mWYXvUxHy41kNEaKZwVhpzqIvU/b6VnlgxUHX697e
-9Xl7ZNsuO0XPpzjMUxWunqeb2kkFMUm2ipvpMdY4dDw86U1K+l6AtvpmllHhW9ji
-kVAA95TUD6fMqhZglTjc15pvAXQhtp1Wh4SC40Ws8TzY602MTP5uzk7d7ekSNU4=
-=es6Y
+iQEcBAEBCAAGBQJYydx6AAoJEPsk95p+1Bw0lGoH/i2/MqaKW79xwIJLRs3HsHqs
+gAKHLkK2irzN2wFIW6spMZPky046lsp2yZrEakOgUWHamjHg618y5dd9SZ3rvJQa
+fB03wmbArlMRjcaU7KZkazFz30+ne7QCf5jtSYiAOLbSHuMJFaEKMJl5qURasxDZ
+/6kAxugAmRG9VKQxmwfei2cKSIfwgqXBIF2FK52ZRtAc5mr4mpttfegRFdfFpAP1
+UxBr4dueqRwja5v4ABZJtXJu1GfOCoNEeXalnkTFuf4a1bRyg7R1wcJmgFS9pvf5
+bKXMIwVJkuFZ/rrJkNuYHVO0Ykn1QwjrWHefKDe+Z7y+Ub0DASjyzhG5ARdDb5c=
+=Y+FT
 -----END PGP SIGNATURE-----
+
 ```
 
 #### Usage on Linux (Debian-based distros)
