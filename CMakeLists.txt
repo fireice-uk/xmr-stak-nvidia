@@ -14,6 +14,7 @@ if("${MHTD}" STREQUAL "MHTD-NOTFOUND")
 endif()
 
 find_package(OpenSSL REQUIRED)
+include_directories(${OPENSSL_INCLUDE_DIR})
 find_package(CUDA REQUIRED)
 
 #set(CMAKE_VERBOSE_MAKEFILE ON)
