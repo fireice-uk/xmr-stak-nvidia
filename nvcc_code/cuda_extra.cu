@@ -123,7 +123,7 @@ __global__ void cryptonight_extra_gpu_final( int threads, uint64_t target, uint3
 	const int thread = blockDim.x * blockIdx.x + threadIdx.x;
 
 	if ( thread >= threads )
-		return; 
+		return;
 
 	int i;
 	uint32_t * __restrict__ ctx_state = d_ctx_state + thread * 50;
@@ -187,8 +187,8 @@ extern "C" int cryptonight_extra_cpu_init(nvid_ctx* ctx)
 	cudaSetDeviceFlags(cudaDeviceScheduleBlockingSync);
 	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 
-	uint32_t wsize = ctx->device_blocks * ctx->device_threads;	
-	cudaMalloc(&ctx->d_long_state, MEMORY * wsize);
+	size_t wsize = ctx->device_blocks * ctx->device_threads;
+	cudaMalloc(&ctx->d_long_state, (size_t)MEMORY * wsize);
 	exit_if_cudaerror(ctx->device_id, __FILE__, __LINE__);
 	cudaMalloc(&ctx->d_ctx_state, 50 * sizeof(uint32_t) * wsize);
 	exit_if_cudaerror(ctx->device_id, __FILE__, __LINE__);
@@ -219,7 +219,7 @@ extern "C" void cryptonight_extra_cpu_prepare(nvid_ctx* ctx, uint32_t startNonce
 	dim3 grid( ( wsize + threadsperblock - 1 ) / threadsperblock );
 	dim3 block( threadsperblock );
 
-	cryptonight_extra_gpu_prepare<<<grid, block >>>( wsize, ctx->d_input, ctx->inputlen, startNonce, 
+	cryptonight_extra_gpu_prepare<<<grid, block >>>( wsize, ctx->d_input, ctx->inputlen, startNonce,
 		ctx->d_ctx_state, ctx->d_ctx_a, ctx->d_ctx_b, ctx->d_ctx_key1, ctx->d_ctx_key2 );
 
 	exit_if_cudaerror(ctx->device_id, __FILE__, __LINE__ );
