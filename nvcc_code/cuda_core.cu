@@ -6,23 +6,23 @@
 
 #ifdef _WIN32
 #include <windows.h>
-extern "C" void compat_usleep(uint64_t waitTime) 
-{ 
+extern "C" void compat_usleep(uint64_t waitTime)
+{
     if (waitTime > 0)
     {
         if (waitTime > 100)
         {
             // use a waitable timer for larger intervals > 0.1ms
 
-            HANDLE timer; 
-            LARGE_INTEGER ft; 
+            HANDLE timer;
+            LARGE_INTEGER ft;
 
             ft.QuadPart = -(10*waitTime); // Convert to 100 nanosecond interval, negative value indicates relative time
 
-            timer = CreateWaitableTimer(NULL, TRUE, NULL); 
-            SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0); 
-            WaitForSingleObject(timer, INFINITE); 
-            CloseHandle(timer); 
+            timer = CreateWaitableTimer(NULL, TRUE, NULL);
+            SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0);
+            WaitForSingleObject(timer, INFINITE);
+            CloseHandle(timer);
         }
         else
         {
@@ -30,7 +30,7 @@ extern "C" void compat_usleep(uint64_t waitTime)
 
             LARGE_INTEGER perfCnt, start, now;
             __int64 elapsed;
- 
+
             QueryPerformanceFrequency(&perfCnt);
             QueryPerformanceCounter(&start);
             do {
@@ -89,7 +89,7 @@ __device__ __forceinline__ void storeGlobal32( T* addr, T const & val )
 	asm volatile( "st.global.cg.u32 [%0], %1;" : : "l"( addr ), "r"( val ) );
 }
 
-__global__ void cryptonight_core_gpu_phase1( int threads, uint32_t * __restrict__ long_state, uint32_t * __restrict__ ctx_state, uint32_t * __restrict__ ctx_key1 )
+__global__ void cryptonight_core_gpu_phase1( int threads, int bfactor, int partidx, uint32_t * __restrict__ long_state, uint32_t * __restrict__ ctx_state, uint32_t * __restrict__ ctx_key1 )
 {
 	__shared__ uint32_t sharedMemory[1024];
 
@@ -99,19 +99,32 @@ __global__ void cryptonight_core_gpu_phase1( int threads, uint32_t * __restrict_
 	const int thread = ( blockDim.x * blockIdx.x + threadIdx.x ) >> 3;
 	const int sub = ( threadIdx.x & 7 ) << 2;
 
+	const int batchsize = 0x80000 >> bfactor;
+	const int start = partidx * batchsize;
+	const int end = start + batchsize;
+
 	if ( thread >= threads )
 		return;
-	
+
 	uint32_t key[40], text[4];
 
 	MEMCPY8( key, ctx_key1 + thread * 40, 20 );
-	MEMCPY8( text, ctx_state + thread * 50 + sub + 16, 2 );
 
+	if( partidx == 0 )
+	{
+		// first round
+		MEMCPY8( text, ctx_state + thread * 50 + sub + 16, 2 );
+	}
+	else
+	{
+		// load previous text data
+		MEMCPY8( text, &long_state[( (uint64_t) thread << 19 ) + sub + start - 32], 2 );
+	}
 	__syncthreads( );
-	for ( int i = 0; i < 0x80000; i += 32 )
+	for ( int i = start; i < end; i += 32 )
 	{
 		cn_aes_pseudo_round_mut( sharedMemory, text, key );
-		MEMCPY8( &long_state[( (uint64_t) thread << 19 ) + sub + i], text, 2 );
+		MEMCPY8(&long_state[((uint64_t) thread << 19) + (sub + i)], text, 2);
 	}
 }
 
@@ -244,7 +257,7 @@ __global__ void cryptonight_core_gpu_phase2( int threads, int bfactor, int parti
 #endif // __CUDA_ARCH__ >= 300
 }
 
-__global__ void cryptonight_core_gpu_phase3( int threads, const uint32_t * __restrict__ long_state, uint32_t * __restrict__ d_ctx_state, uint32_t * __restrict__ d_ctx_key2 )
+__global__ void cryptonight_core_gpu_phase3( int threads, int bfactor, int partidx, const uint32_t * __restrict__ long_state, uint32_t * __restrict__ d_ctx_state, uint32_t * __restrict__ d_ctx_key2 )
 {
 	__shared__ uint32_t sharedMemory[1024];
 
@@ -254,19 +267,23 @@ __global__ void cryptonight_core_gpu_phase3( int threads, const uint32_t * __res
 	int thread = ( blockDim.x * blockIdx.x + threadIdx.x ) >> 3;
 	int sub = ( threadIdx.x & 7 ) << 2;
 
+	const int batchsize = 0x80000 >> bfactor;
+	const int start = partidx * batchsize;
+	const int end = start + batchsize;
+
 	if ( thread >= threads )
 		return;
 
-	uint32_t key[40], text[4], i, j;
+	uint32_t key[40], text[4];
 	MEMCPY8( key, d_ctx_key2 + thread * 40, 20 );
 	MEMCPY8( text, d_ctx_state + thread * 50 + sub + 16, 2 );
 
 	__syncthreads( );
-	for ( i = 0; i < 0x80000; i += 32 )
+	for ( int i = start; i < end; i += 32 )
 	{
 #pragma unroll
-		for ( j = 0; j < 4; ++j )
-			text[j] ^= long_state[( (IndexType) thread << 19 ) + sub + i + j];
+		for ( int j = 0; j < 4; ++j )
+			text[j] ^= long_state[((IndexType) thread << 19) + (sub + i + j)];
 
 		cn_aes_pseudo_round_mut( sharedMemory, text, key );
 	}
@@ -281,24 +298,45 @@ extern "C" void cryptonight_core_cpu_hash(nvid_ctx* ctx)
 	dim3 block4( ctx->device_threads << 2 );
 	dim3 block8( ctx->device_threads << 3 );
 
-	int i, partcount = 1 << ctx->device_bfactor;
+	int partcount = 1 << ctx->device_bfactor;
 
-	cryptonight_core_gpu_phase1<<< grid, block8 >>>( ctx->device_blocks*ctx->device_threads, 
-		ctx->d_long_state, ctx->d_ctx_state, ctx->d_ctx_key1 );
-	exit_if_cudaerror( ctx->device_id, __FILE__, __LINE__ );
+	/* bfactor for phase 1 and 3
+	 *
+	 * phase 1 and 3 consume less time than phase 2, therefore we begin with the
+	 * kernel splitting if the user defined a `bfactor >= 5`
+	 */
+	int bfactorOneThree = ctx->device_bfactor - 4;
+	if( bfactorOneThree < 0 )
+		bfactorOneThree = 0;
 
+	int partcountOneThree = 1 << bfactorOneThree;
+
+	for ( int i = 0; i < partcountOneThree; i++ )
+	{
+		cryptonight_core_gpu_phase1<<< grid, block8 >>>( ctx->device_blocks*ctx->device_threads,
+			bfactorOneThree, i,
+			ctx->d_long_state, ctx->d_ctx_state, ctx->d_ctx_key1 );
+		exit_if_cudaerror( ctx->device_id, __FILE__, __LINE__ );
+
+		if ( partcount > 1 && ctx->device_bsleep > 0) compat_usleep( ctx->device_bsleep );
+	}
 	if ( partcount > 1 && ctx->device_bsleep > 0) compat_usleep( ctx->device_bsleep );
 
-	for ( i = 0; i < partcount; i++ )
+	for ( int i = 0; i < partcount; i++ )
 	{
-		cryptonight_core_gpu_phase2<<< grid, ( ctx->device_arch[0] >= 3 ? block4 : block ) >>>( ctx->device_blocks*ctx->device_threads, 
+		cryptonight_core_gpu_phase2<<< grid, ( ctx->device_arch[0] >= 3 ? block4 : block ) >>>( ctx->device_blocks*ctx->device_threads,
 			ctx->device_bfactor, i, ctx->d_long_state, ctx->d_ctx_a, ctx->d_ctx_b );
 		exit_if_cudaerror( ctx->device_id, __FILE__, __LINE__ );
 
 		if ( partcount > 1 && ctx->device_bsleep > 0) compat_usleep( ctx->device_bsleep );
 	}
 
-	cryptonight_core_gpu_phase3<<< grid, block8 >>>( ctx->device_blocks*ctx->device_threads, ctx->d_long_state, 
-		ctx->d_ctx_state, ctx->d_ctx_key2 );
-	exit_if_cudaerror( ctx->device_id, __FILE__, __LINE__ );
+	for ( int i = 0; i < partcountOneThree; i++ )
+	{
+		cryptonight_core_gpu_phase3<<< grid, block8 >>>( ctx->device_blocks*ctx->device_threads,
+			bfactorOneThree, i,
+			ctx->d_long_state,
+			ctx->d_ctx_state, ctx->d_ctx_key2 );
+		exit_if_cudaerror( ctx->device_id, __FILE__, __LINE__ );
+	}
 }
