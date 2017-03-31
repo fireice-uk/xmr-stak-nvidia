@@ -141,8 +141,7 @@ set(LIBS ${LIBS} ${CMAKE_THREAD_LIBS_INIT})
 find_library(MHTD NAMES microhttpd)
 if("${MHTD}" STREQUAL "MHTD-NOTFOUND")
     message(STATUS "microhttpd NOT found: disable http server")
-else()
-    add_definitions("-DHAVE_MICROHTTPD")
+    add_definitions("-DCONF_NO_HTTPD")
 endif()
 
 ###############################################################################

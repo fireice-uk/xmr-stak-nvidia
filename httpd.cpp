@@ -21,7 +21,7 @@
   *
   */
 
-#ifdef HAVE_MICROHTTPD
+#ifndef CONF_NO_HTTPD
 
 #include <stdlib.h>
 #include <stdio.h>

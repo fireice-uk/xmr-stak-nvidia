@@ -27,7 +27,7 @@
 #include "console.h"
 #include "donate-level.h"
 
-#ifdef HAVE_MICROHTTPD
+#ifndef CONF_NO_HTTPD
 #	include "httpd.h"
 #endif
 
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-#ifdef HAVE_MICROHTTPD
+#ifndef CONF_NO_HTTPD
 	if(jconf::inst()->GetHttpdPort() != 0)
 	{
 		if (!httpd::inst()->start_daemon())
