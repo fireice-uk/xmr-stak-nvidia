@@ -22,21 +22,12 @@ list(APPEND CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
 
 option(XMR-STAK_UNSUPPORTED_GCC "Allow compile with gcc <5.1 and >=4.8" OFF)
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    if(XMR-STAK_UNSUPPORTED_GCC)
-        # gcc 4.8 is the first version with acceptable c++11 support
-        if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
-            message(FATAL_ERROR "GCC version must be at least 4.8!")
-        else()
-            message(WARNING "XMR-STAK_UNSUPPORTED_GCC=ON, we can't give any warrenty!")
-        endif()
-    else()
-        # gcc 5.1 is the first GNU version without CoW strings
-        # https://github.com/fireice-uk/xmr-stak-nvidia/pull/10#issuecomment-290821792
-        if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
-            message(FATAL_ERROR "GCC version must be at least 5.1! You can use '-DXMR-STAK_UNSUPPORTED_GCC=ON' to irgnore this error.")
-        endif()
-    endif()
+# gcc 5.1 is the first GNU version without CoW strings
+# https://github.com/fireice-uk/xmr-stak-nvidia/pull/10#issuecomment-290821792
+# If you remove this guard to compile with older gcc versions the miner will produce
+# a high rate of wrong shares.
+if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
+    message(FATAL_ERROR "GCC version must be at least 5.1!")
 endif()
 
 set(BUILD_TYPE "Release;Debug")
