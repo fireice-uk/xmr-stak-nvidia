@@ -20,19 +20,20 @@ list(APPEND CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
 # CMake user options
 ################################################################################
 
-option(XMR-STAK_UNSUPPORTED_GCC "Allow compile with gcc <5.1 and >=4.8" OFF)
-
 # gcc 5.1 is the first GNU version without CoW strings
 # https://github.com/fireice-uk/xmr-stak-nvidia/pull/10#issuecomment-290821792
 # If you remove this guard to compile with older gcc versions the miner will produce
 # a high rate of wrong shares.
-if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
-    message(FATAL_ERROR "GCC version must be at least 5.1!")
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
+        message(FATAL_ERROR "GCC version must be at least 5.1!")
+    endif()
 endif()
 
 set(BUILD_TYPE "Release;Debug")
-set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build" FORCE)
-
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build" FORCE)
+endif()
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "${BUILD_TYPE}")
 
 option(XMR-STAK_LARGEGRID "Support large CUDA block count > 128" ON)
@@ -146,6 +147,8 @@ find_library(MHTD NAMES microhttpd)
 if("${MHTD}" STREQUAL "MHTD-NOTFOUND")
     message(STATUS "microhttpd NOT found: disable http server")
     add_definitions("-DCONF_NO_HTTPD")
+else()
+    set(LIBS ${LIBS} ${MHTD})
 endif()
 
 ###############################################################################
@@ -213,8 +216,11 @@ target_link_libraries(xmr-stak-nvidia ${LIBS} xmr-stak-nvidiaCuda xmr-stak-nvidi
 # Install
 ################################################################################
 
-install(TARGETS xmr-stak-nvidia
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+# do not install the binary if the project and install are equal
+if( NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "${PROJECT_BINARY_DIR}" )
+    install(TARGETS xmr-stak-nvidia
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+endif()
 
 # avoid overwrite of user defined settings
 # install `config.txt`if file not exists in `${CMAKE_INSTALL_PREFIX}/bin`
