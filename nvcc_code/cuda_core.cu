@@ -57,7 +57,7 @@ extern "C" void compat_usleep(uint64_t waitTime)
 /* sm_2X is limited to 2GB due to the small TLB
  * therefore we never use 64bit indices
  */
-#if defined(XMRMINER_LARGEGRID) && (__CUDA_ARCH__ >= 300)
+#if defined(XMR_STAK_LARGEGRID) && (__CUDA_ARCH__ >= 300)
 typedef uint64_t IndexType;
 #else
 typedef int IndexType;
@@ -160,8 +160,8 @@ __forceinline__ __device__ uint32_t shuffle(volatile uint32_t* ptr,const uint32_
 #endif
 }
 
-#ifdef XMR_THREADS
-__launch_bounds__( XMRMINER_THREADS * 4 )
+#ifdef XMR_STAK_THREADS
+__launch_bounds__( XMR_STAK_THREADS * 4 )
 #endif
 __global__ void cryptonight_core_gpu_phase2( int threads, int bfactor, int partidx, uint32_t * d_long_state, uint32_t * d_ctx_a, uint32_t * d_ctx_b )
 {
