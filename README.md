@@ -54,7 +54,7 @@ EPEUFBRkEHWsOoGJqNskBY4vhTVkFO0gW295qjAzcI8I54kjSYcE1d53opWYizA=
 ```
     sudo apt-get install nvidia-cuda-dev nvidia-cuda-toolkit libmicrohttpd-dev libssl-dev cmake build-essential
     cmake .
-    make
+    make install
 ```
 
 GCC version 5.1 or higher is required for full C++11 support. CMake release compile scripts, as well as CodeBlocks build environment for debug builds is included.
@@ -67,7 +67,7 @@ Unfortunately CUDA 8.0 does not support GCC 6 without nasty hacks. However clang
     export CC=/usr/bin/clang
     export CXX=/usr/bin/clang++
     cmake .
-    make
+    make install
 ```
 
 #### Default dev donation
