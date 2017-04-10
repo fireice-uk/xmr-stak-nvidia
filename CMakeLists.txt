@@ -38,7 +38,7 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "${BUILD_TYPE}")
 
 option(XMR-STAK_LARGEGRID "Support large CUDA block count > 128" ON)
 if(XMR-STAK_LARGEGRID)
-    add_definitions("-DXMRMINER_LARGEGRID=${XMR-STAK_LARGEGRID}")
+    add_definitions("-DXMR_STAK_LARGEGRID=${XMR-STAK_LARGEGRID}")
 endif()
 
 set(DEVICE_COMPILER "nvcc")
@@ -60,7 +60,7 @@ set(LIBS ${LIBS} ${CUDA_LIBRARIES})
 set(XMR-STAK_THREADS 0 CACHE STRING "Set maximum number of threads (for compile time optimization)")
 if(NOT XMR-STAK_THREADS EQUAL 0)
     message(STATUS "xmr-stak-nvidia: set max threads per block to ${XMR-STAK_THREADS}")
-    add_definitions("-DXMRMINER_THREADS=${XMR-STAK_THREADS}")
+    add_definitions("-DXMR_STAK_THREADS=${XMR-STAK_THREADS}")
 endif()
 
 set(CUDA_ARCH "20;30;35;37;50;52;60;61;62" CACHE STRING "Set GPU architecture (semicolon separated list, e.g. '-DCUDA_ARCH=20;35;60')")
