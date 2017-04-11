@@ -298,5 +298,42 @@ extern "C" int cuda_get_deviceinfo(nvid_ctx* ctx)
 	ctx->device_arch[0] = props.major;
 	ctx->device_arch[1] = props.minor;
 
+	// set all evice option those marked as auto (-1) to a valid value
+	if(ctx->device_blocks == -1)
+	{
+		// based of my experience 3 * SMX count is a good value
+		ctx->device_blocks = props.multiProcessorCount * 3;
+	}
+	if(ctx->device_threads == -1)
+	{
+		/* sm_20 devices can only run 512 threads per cuda block
+		 * `cryptonight_core_gpu_phase1` and `cryptonight_core_gpu_phase3` starts
+		 * `8 * ctx->device_threads` threads per block
+		 */
+		ctx->device_threads = 64;
+		if(props.major < 6)
+		{
+			// try to stay under 950 threads ( 1900MiB memory per for hashes )
+			while(ctx->device_blocks * ctx->device_threads >= 950 && ctx->device_threads > 2)
+			{
+				ctx->device_threads /= 2;
+			}
+		}
+
+		// stay within 85% of the available RAM
+		while(ctx->device_threads > 2)
+		{
+			size_t freeMemory = 0;
+			size_t totalMemory = 0;
+			cudaMemGetInfo(&freeMemory, &totalMemory);
+			exit_if_cudaerror(ctx->device_id, __FILE__, __LINE__ );
+			freeMemory = (freeMemory * size_t(85)) / 100;
+			if( freeMemory > (size_t(ctx->device_blocks) * size_t(ctx->device_threads) * size_t(2u * 1024u * 1024u)) )
+				break;
+			else
+				ctx->device_threads /= 2;
+		}
+	}
+
 	return 1;
 }

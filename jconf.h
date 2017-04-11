@@ -15,10 +15,10 @@ public:
 
 	struct thd_cfg {
 		uint32_t id;
-		uint32_t blocks;
-		uint32_t threads;
-		uint32_t bfactor;
-		uint32_t bsleep;
+		int32_t blocks;
+		int32_t threads;
+		int32_t bfactor;
+		int32_t bsleep;
 		int32_t cpu_aff;
 	};
 
