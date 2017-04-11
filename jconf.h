@@ -24,6 +24,7 @@ public:
 
 	size_t GetThreadCount();
 	bool GetThreadConfig(size_t id, thd_cfg &cfg);
+	bool NeedsAutoconf();
 
 	bool GetTlsSetting();
 	bool TlsSecureAlgos();

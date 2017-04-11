@@ -45,7 +45,7 @@ using namespace rapidjson;
 /*
  * This enum needs to match index in oConfigValues, otherwise we will get a runtime error
  */
-enum configEnum { iGpuThreadNum, aGpuThreadsConf,
+enum configEnum { aGpuThreadsConf,
 	bTlsMode, bTlsSecureAlgo, sTlsFingerprint, sPoolAddr, sWalletAddr, sPoolPwd,
 	iCallTimeout, iNetRetry, iGiveUpLimit, iVerboseLevel, iAutohashTime,
 	sOutputFile, iHttpdPort, bPreferIpv4 };
@@ -56,10 +56,10 @@ struct configVal {
 	Type iType;
 };
 
-//Same order as in configEnum, as per comment above
+// Same order as in configEnum, as per comment above
+// kNullType means any type
 configVal oConfigValues[] = {
-	{ iGpuThreadNum, "gpu_thread_num", kNumberType },
-	{ aGpuThreadsConf, "gpu_threads_conf", kArrayType },
+	{ aGpuThreadsConf, "gpu_threads_conf", kNullType },
 	{ bTlsMode, "use_tls", kTrueType },
 	{ bTlsSecureAlgo, "tls_secure_algo", kTrueType },
 	{ sTlsFingerprint, "tls_fingerprint", kStringType },
@@ -81,6 +81,8 @@ constexpr size_t iConfigCnt = (sizeof(oConfigValues)/sizeof(oConfigValues[0]));
 inline bool checkType(Type have, Type want)
 {
 	if(want == have)
+		return true;
+	else if(want == kNullType)
 		return true;
 	else if(want == kTrueType && have == kFalseType)
 		return true;
@@ -107,8 +109,16 @@ jconf::jconf()
 	prv = new opaque_private();
 }
 
+bool jconf::NeedsAutoconf()
+{
+	return !prv->configValues[aGpuThreadsConf]->IsArray();
+}
+
 bool jconf::GetThreadConfig(size_t id, thd_cfg &cfg)
 {
+	if(!prv->configValues[aGpuThreadsConf]->IsArray())
+		return false;
+
 	if(id >= prv->configValues[aGpuThreadsConf]->Size())
 		return false;
 
@@ -200,7 +210,10 @@ bool jconf::PreferIpv4()
 
 size_t jconf::GetThreadCount()
 {
-	return prv->configValues[aGpuThreadsConf]->Size();
+	if(prv->configValues[aGpuThreadsConf]->IsArray())
+		return prv->configValues[aGpuThreadsConf]->Size();
+	else
+		return 0;
 }
 
 uint64_t jconf::GetCallTimeout()
@@ -352,17 +365,8 @@ bool jconf::parse_config(const char* sFilename)
 		}
 	}
 
-	size_t n_thd = prv->configValues[aGpuThreadsConf]->Size();
-	if(prv->configValues[iGpuThreadNum]->GetUint64() != n_thd)
-	{
-		printer::inst()->print_msg(L0,
-			"Invalid config file. Your GPU config array has %llu members, while you want to use %llu threads.",
-			int_port(n_thd), int_port(prv->configValues[iGpuThreadNum]->GetUint64()));
-		return false;
-	}
-
 	thd_cfg c;
-	for(size_t i=0; i < n_thd; i++)
+	for(size_t i=0; i < GetThreadCount(); i++) //Will be 0 on autoconf
 	{
 		if(!GetThreadConfig(i, c))
 		{
