@@ -167,9 +167,9 @@ and install.
 - `MICROHTTPD_REQUIRED` allow to disable/enable the dependency *microhttpd*
   - by default enabled
   - there is no *http* interface available if option is disabled: `cmake . -DMICROHTTPD_REQUIRED=OFF`
- - `OpenSSL_REQUIRED`allow to disable/enable the dependency *OpenSSL*
+- `OpenSSL_REQUIRED`allow to disable/enable the dependency *OpenSSL*
   - by default enabled
-  - it is not possible to connect to a *https* secured pool if optin is disabled: `cmake . -DOpenSSL_REQUIRED=OFF`
+  - it is not possible to connect to a *TLS* secured pool if optin is disabled: `cmake . -DOpenSSL_REQUIRED=OFF`
 - `XMR-STAK_LARGEGRID` use `32` or `64` bit integer for on device indices
   - default is enabled
   - on old GPUs it can increase the hash rate if disabled: `cmake . -DXMR-STAK_LARGEGRID=OFF`
@@ -198,7 +198,7 @@ The memory limit for NVIDIA Pascal GPUs is `16` GiB if the newest CUDA driver is
 
 ### Windows or Linux Interactive Usage
 
-To work (surfe) with you desktop system while you are running the miner you need to find a good value for `bfactor` and `bsleep`.
+To work (surf) with you desktop system while you are running the miner you need to find a good value for `bfactor` and `bsleep`.
 On windows, you need to set the option `bfactor` and `bsleep` if the miner crashs shortly after starting.
 A good value to start on windows is `"bfactor" : 6, "bsleep" :  25`.
 To reach the maximum hash rate you must set both values to zero `"bfactor" : 0, "bsleep" : 0`.
