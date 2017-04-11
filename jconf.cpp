@@ -134,38 +134,26 @@ bool jconf::GetThreadConfig(size_t id, thd_cfg &cfg)
 	if(!gid->IsNumber() || gid->GetInt() < 0)
 		return false;
 
-	if(blocks->IsNumber() && blocks->GetInt() > 0)
-		cfg.blocks = blocks->GetInt();
-	else if(blocks->IsNull())
-		cfg.blocks = -1;
-	else
+	if(!blocks->IsNumber() || blocks->GetInt() < 0)
 		return false;
 
-	if(threads->IsNumber() && threads->GetInt() > 0)
-		cfg.threads = threads->GetInt();
-	else if(threads->IsNull())
-		cfg.threads = -1;
-	else
+	if(!threads->IsNumber() || threads->GetInt() < 0)
 		return false;
 
-	if(bfactor->IsNumber() && bfactor->GetInt() >= 0)
-		cfg.bfactor = bfactor->GetInt();
-	else if(bfactor->IsNull())
-		cfg.bfactor = -1;
-	else
+	if(!bfactor->IsNumber() || bfactor->GetInt() < 0)
 		return false;
 
-	if(bsleep->IsNumber() && bsleep->GetInt() >= 0)
-		cfg.bsleep = bsleep->GetInt();
-	else if(bsleep->IsNull())
-		cfg.bsleep = -1;
-	else
+	if(!bsleep->IsNumber() || bsleep->GetInt() < 0)
 		return false;
 
 	if(!aff->IsUint64() && !aff->IsBool())
 		return false;
 
 	cfg.id = gid->GetInt();
+	cfg.blocks = blocks->GetInt();
+	cfg.threads = threads->GetInt();
+	cfg.bfactor = bfactor->GetInt();
+	cfg.bsleep = bsleep->GetInt();
 
 	if(aff->IsNumber())
 		cfg.cpu_aff = aff->GetInt();
