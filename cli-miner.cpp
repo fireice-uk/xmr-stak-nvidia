@@ -100,9 +100,13 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	// check if auto adjustment is needed
-	autoAdjust adjust;
-	adjust.validateThreadConfig();
+	if(jconf::inst()->NeedsAutoconf())
+	{
+		autoAdjust adjust;
+		adjust.validateThreadConfig();
+		win_exit();
+		return 0;
+	}
 
 	if (!minethd::self_test())
 	{
