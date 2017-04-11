@@ -21,6 +21,7 @@
   *
   */
 
+#include "autoAdjust.hpp"
 #include "executor.h"
 #include "minethd.h"
 #include "jconf.h"
@@ -98,6 +99,10 @@ int main(int argc, char *argv[])
 		win_exit();
 		return 0;
 	}
+
+	// check if auto adjustment is needed
+	autoAdjust adjust;
+	adjust.validateThreadConfig();
 
 	if (!minethd::self_test())
 	{
