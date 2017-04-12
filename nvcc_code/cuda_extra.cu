@@ -250,10 +250,26 @@ extern "C" void cryptonight_extra_cpu_final(nvid_ctx* ctx, uint32_t startNonce, 
 		resnonce[i] += startNonce;
 }
 
+extern "C" int cuda_get_devicecount( int* deviceCount)
+{
+	cudaError_t err;
+	*deviceCount = 0;
+	err = cudaGetDeviceCount(deviceCount);
+	if(err != cudaSuccess)
+	{
+		if(err != cudaErrorNoDevice)
+			printf("No CUDA device found!\n");
+		else
+			printf("Unable to query number of CUDA devices!\n");
+		return 0;
+	}
+
+	return 1;
+}
+
 extern "C" int cuda_get_deviceinfo(nvid_ctx* ctx)
 {
 	cudaError_t err;
-	int GPU_N;
 	int version;
 
 	err = cudaDriverGetVersion(&version);
@@ -269,13 +285,9 @@ extern "C" int cuda_get_deviceinfo(nvid_ctx* ctx)
 		return 0;
 	}
 
-	err = cudaGetDeviceCount(&GPU_N);
-	if(err != cudaSuccess)
+	int GPU_N;
+	if(cuda_get_devicecount(&GPU_N) == 0)
 	{
-		if(err != cudaErrorNoDevice)
-			printf("No CUDA device found!\n");
-		else
-			printf("Unable to query number of CUDA devices!\n");
 		return 0;
 	}
 
@@ -301,8 +313,12 @@ extern "C" int cuda_get_deviceinfo(nvid_ctx* ctx)
 	// set all evice option those marked as auto (-1) to a valid value
 	if(ctx->device_blocks == -1)
 	{
-		// based of my experience 3 * SMX count is a good value
-		ctx->device_blocks = props.multiProcessorCount * 3;
+		/* good values based of my experience
+		 *	 - 3 * SMX count >=sm_30
+		 *   - 2 * SMX count for <sm_30
+		 */
+		ctx->device_blocks = props.multiProcessorCount *
+			( props.major < 3 ? 2 : 3 );
 	}
 	if(ctx->device_threads == -1)
 	{

@@ -27,6 +27,12 @@ typedef struct {
 
 extern "C" {
 
+/** get device count
+ *
+ * @param deviceCount[out] cuda device count
+ * @return error code: 0 == error is occurred, 1 == no error
+ */
+int cuda_get_devicecount( int* deviceCount);
 int cuda_get_deviceinfo(nvid_ctx *ctx);
 int cryptonight_extra_cpu_init(nvid_ctx *ctx);
 void cryptonight_extra_cpu_set_data( nvid_ctx* ctx, const void *data, uint32_t len);
