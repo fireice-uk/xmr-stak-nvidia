@@ -3,6 +3,7 @@
 #include <string.h>
 #include <cuda.h>
 #include <cuda_runtime.h>
+#include <device_functions.hpp>
 
 #ifdef __CUDACC__
 __constant__
