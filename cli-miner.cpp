@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 	if(jconf::inst()->NeedsAutoconf())
 	{
 		autoAdjust adjust;
-		adjust.validateThreadConfig();
+		adjust.printConfig();
 		win_exit();
 		return 0;
 	}
