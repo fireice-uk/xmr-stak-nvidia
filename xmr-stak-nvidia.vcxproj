@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="console.h" />
+    <ClInclude Include="crypto\cryptonight.h" />
+    <ClInclude Include="crypto\cryptonight_aesni.h" />
+    <ClInclude Include="crypto\c_blake256.h" />
+    <ClInclude Include="crypto\c_groestl.h" />
+    <ClInclude Include="crypto\c_jh.h" />
+    <ClInclude Include="crypto\c_keccak.h" />
+    <ClInclude Include="crypto\c_skein.h" />
+    <ClInclude Include="crypto\groestl_tables.h" />
+    <ClInclude Include="crypto\hash.h" />
+    <ClInclude Include="crypto\int-util.h" />
+    <ClInclude Include="crypto\skein_port.h" />
+    <ClInclude Include="donate-level.h" />
+    <ClInclude Include="executor.h" />
+    <ClInclude Include="httpd.h" />
+    <ClInclude Include="jconf.h" />
+    <ClInclude Include="jext.h" />
+    <ClInclude Include="jpsock.h" />
+    <ClInclude Include="minethd.h" />
+    <ClInclude Include="msgstruct.h" />
+    <ClInclude Include="nvcc_code\cryptonight.h" />
+    <ClInclude Include="nvcc_code\cuda_aes.hpp" />
+    <ClInclude Include="nvcc_code\cuda_blake.hpp" />
+    <ClInclude Include="nvcc_code\cuda_device.hpp" />
+    <ClInclude Include="nvcc_code\cuda_extra.h" />
+    <ClInclude Include="nvcc_code\cuda_groestl.hpp" />
+    <ClInclude Include="nvcc_code\cuda_jh.hpp" />
+    <ClInclude Include="nvcc_code\cuda_keccak.hpp" />
+    <ClInclude Include="nvcc_code\cuda_skein.hpp" />
+    <ClInclude Include="rapidjson\allocators.h" />
+    <ClInclude Include="rapidjson\document.h" />
+    <ClInclude Include="rapidjson\encodedstream.h" />
+    <ClInclude Include="rapidjson\encodings.h" />
+    <ClInclude Include="rapidjson\error\en.h" />
+    <ClInclude Include="rapidjson\error\error.h" />
+    <ClInclude Include="rapidjson\filereadstream.h" />
+    <ClInclude Include="rapidjson\filewritestream.h" />
+    <ClInclude Include="rapidjson\fwd.h" />
+    <ClInclude Include="rapidjson\internal\biginteger.h" />
+    <ClInclude Include="rapidjson\internal\diyfp.h" />
+    <ClInclude Include="rapidjson\internal\dtoa.h" />
+    <ClInclude Include="rapidjson\internal\ieee754.h" />
+    <ClInclude Include="rapidjson\internal\itoa.h" />
+    <ClInclude Include="rapidjson\internal\meta.h" />
+    <ClInclude Include="rapidjson\internal\pow10.h" />
+    <ClInclude Include="rapidjson\internal\regex.h" />
+    <ClInclude Include="rapidjson\internal\stack.h" />
+    <ClInclude Include="rapidjson\internal\strfunc.h" />
+    <ClInclude Include="rapidjson\internal\strtod.h" />
+    <ClInclude Include="rapidjson\internal\swap.h" />
+    <ClInclude Include="rapidjson\istreamwrapper.h" />
+    <ClInclude Include="rapidjson\memorybuffer.h" />
+    <ClInclude Include="rapidjson\memorystream.h" />
+    <ClInclude Include="rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="rapidjson\pointer.h" />
+    <ClInclude Include="rapidjson\prettywriter.h" />
+    <ClInclude Include="rapidjson\rapidjson.h" />
+    <ClInclude Include="rapidjson\reader.h" />
+    <ClInclude Include="rapidjson\schema.h" />
+    <ClInclude Include="rapidjson\stream.h" />
+    <ClInclude Include="rapidjson\stringbuffer.h" />
+    <ClInclude Include="rapidjson\writer.h" />
+    <ClInclude Include="socket.h" />
+    <ClInclude Include="socks.h" />
+    <ClInclude Include="thdq.hpp" />
+    <ClInclude Include="webdesign.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cli-miner.cpp" />
+    <ClCompile Include="console.cpp" />
+    <ClCompile Include="crypto\cryptonight_common.cpp" />
+    <ClCompile Include="crypto\c_blake256.c" />
+    <ClCompile Include="crypto\c_groestl.c" />
+    <ClCompile Include="crypto\c_jh.c" />
+    <ClCompile Include="crypto\c_keccak.c" />
+    <ClCompile Include="crypto\c_skein.c" />
+    <ClCompile Include="crypto\soft_aes.c" />
+    <ClCompile Include="executor.cpp" />
+    <ClCompile Include="httpd.cpp" />
+    <ClCompile Include="jconf.cpp" />
+    <ClCompile Include="jpsock.cpp" />
+    <ClCompile Include="minethd.cpp" />
+    <ClCompile Include="socket.cpp" />
+    <ClCompile Include="webdesign.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="nvcc_code\cuda_core.cu" />
+    <CudaCompile Include="nvcc_code\cuda_extra.cu" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{36DC07F9-A4A6-4877-A146-1B960083CF6F}</ProjectGuid>
+    <RootNamespace>xmr-stak-nvidia</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformTarget)\temp\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>CONF_NO_HTTPD;CONF_NO_TLS;WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;CURL_STATICLIB;SCRYPT_KECCAK512;SCRYPT_CHACHA;SCRYPT_CHOOSE_COMPILETIME;HAVE_STRUCT_TIMESPEC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories);$(CudaToolkitIncludeDir)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <CompileAsManaged>false</CompileAsManaged>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>false</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>cudart.lib;cuda.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(CudaToolkitLibDir)</AdditionalLibraryDirectories>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <CudaCompile>
+      <CInterleavedPTX>false</CInterleavedPTX>
+    </CudaCompile>
+    <CudaCompile />
+    <CudaCompile>
+      <PtxAsOptionV>true</PtxAsOptionV>
+      <Keep>false</Keep>
+      <CodeGeneration>compute_20,sm_20;compute_20,sm_21;compute_30,sm_30;compute_35,sm_35;compute_37,sm_37;compute_50,sm_50;compute_52,sm_52;compute_60,sm_60;compute_61,sm_61;compute_62,sm_62</CodeGeneration>
+      <Include>
+      </Include>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+      <Optimization>O3</Optimization>
+      <KeepDir>$(CudaIntDir)\temp\$(PlatformTarget)</KeepDir>
+      <CudaRuntime>Static</CudaRuntime>
+      <FastMath>true</FastMath>
+      <MaxRegCount>64</MaxRegCount>
+    </CudaCompile>
+    <CudaLink>
+      <PerformDeviceLink>false</PerformDeviceLink>
+    </CudaLink>
+    <CudaLink>
+      <Optimization>O3</Optimization>
+    </CudaLink>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.targets" />
+  </ImportGroup>
+</Project>
