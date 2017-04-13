@@ -21,6 +21,7 @@
   *
   */
 
+#include "autoAdjust.hpp"
 #include "executor.h"
 #include "minethd.h"
 #include "jconf.h"
@@ -95,6 +96,14 @@ int main(int argc, char *argv[])
 
 	if(!jconf::inst()->parse_config(sFilename))
 	{
+		win_exit();
+		return 0;
+	}
+
+	if(jconf::inst()->NeedsAutoconf())
+	{
+		autoAdjust adjust;
+		adjust.printConfig();
 		win_exit();
 		return 0;
 	}
