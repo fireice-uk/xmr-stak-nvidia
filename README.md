@@ -21,31 +21,31 @@ Hash: SHA256
 Windows binary release checksums
 
 sha1sum
-bfe4514bc019870e7a5ed4e803455022a268a4cc  xmr-stak-nvidia.exe
-ffc277243c01525162899f97a770627f13a5d0dd  xmr-stak-nvidia-notls.exe
+cda5710d8b6f0d3a6b9d2b2d844366bc232d3e64  xmr-stak-nvidia.exe
+9b20c03fe7b5dacd0049ae26ab1b0bdfcfc250df  xmr-stak-nvidia-notls.exe
 a4c5aefbf0af000dca264c3342a68fa41fb6e272  cudart64_80.dll
 d34a0ba0dd7b3b1f900a7e02772e197e974b4a73  libeay32.dll
 2ee9966a0fc163da58408d91be36b84fa287c10b  ssleay32.dll
 
 sha3sum
-f1ec33a66ae2b9a2ec0b5ffa174cba76798b2cd2853baa7e8f57ca79  xmr-stak-nvidia.exe
-8e576a8d3073d22717d02a1c90fb4170e75cee5e0511ed41523856a6  xmr-stak-nvidia-notls.exe
+299127e5a13c8b7bd44a3b4b036d19fbbce0429bed499c17b39ef2b7  xmr-stak-nvidia.exe
+62067b326e3291bc01061cdcb620ca49b709ef31bc3a6023cce9ba12  xmr-stak-nvidia-notls.exe
 571633217a1592d56239d0a55c046b0e3e38cd68548b141b830a44c6  cudart64_80.dll
 133c065d9ef2c93396382e2ba5d8c3ca8c6a57c6beb0159cb9a4b6c5  ssleay32.dll
 05003137a87313c81d6c348c9b96411c95d48dc22c35f36c39129747  libeay32.dll
 
 date
-Thu 16 Mar 21:57:14 GMT 2017
+Sat 15 Apr 20:44:30 BST 2017
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQEcBAEBCAAGBQJYywpPAAoJEPsk95p+1Bw0TlcIAIV0DFG3Kc330QgHDrOGJ+VY
-/NmIGlw8lPzEMxXU3Wk2NvxLWusnXCoq5izEWXuzoIt5QUgkLtE6FzDWbvTAiVYV
-k4FqkzuJj0aAGg/jcmaAW2MhIDny9h66ZdTCclhoerlVTKWYeTy2lA4mrMf3glLy
-RdkyPtueU0D5xY2Hu+R0LxfosPjQXzBEleXrA8R2I31fugyFxNNQd21PO0z+i9Tj
-rb2DF4Dz0zIv6t+pyLoh429mJgkNmsXrUNz7/SMYGH9WeRuCNtAM7zE4Bw4f+hVo
-EPEUFBRkEHWsOoGJqNskBY4vhTVkFO0gW295qjAzcI8I54kjSYcE1d53opWYizA=
-=oYVE
+iQEcBAEBCAAGBQJY8ng6AAoJEPsk95p+1Bw0DiEH/RKdXd0TXV3ANxrH+QKjokzJ
+39qhLAUslhfI5eg7U9NjS+vQHEAocm/qtToDhO02Wg+LsNSbPgRMAzW9726nrKNO
+WuGrFrg6dZaNvJVpqOrhz7ww6Zk4F/aLDZZEVqAMT9JfTWRMR7qRirpOZZPbMJlb
+Ck1O/uUOumyc68n5EoERBnjOeaX7eU2cAXfbO9o5/KPzHV4O0iRfTqMniR7gQQTc
+VDZK2WlPa9hHu0ApcviQN11HOhHzFTbGVOji5irkng1ZswoKVS+8ZlOtvFfYWhu8
+6MWjQK3Ztc+08PDH/CGlcS9u++8r7lTXYzYloFZZvro+GVA5bnLnL4kVxpa7ClY=
+=Bd5J
 -----END PGP SIGNATURE-----
 
 ```
@@ -73,7 +73,8 @@ EPEUFBRkEHWsOoGJqNskBY4vhTVkFO0gW295qjAzcI8I54kjSYcE1d53opWYizA=
 You can find a complete compile guide under [Advanced Compile Options](#advanced-compile-options).
 
 ## Default dev donation
-By default the miner will donate 1% of the hashpower (1 minute in 100 minutes) to my pool. If you want to change that, edit **donate-level.h** before you build the binaries.
+
+By default the miner will donate 1% of the hashpower (1 minute in 100 minutes) to our pool. If you want to change that, edit **donate-level.h** before you build the binaries.
 
 If you want to donate directly to support further development, here are our wallets
 
@@ -85,40 +86,6 @@ fireice-uk:
 psychocrypt:
 ```
 43NoJVEXo21hGZ6tDG6Z3g4qimiGdJPE6GRxAmiWwm26gwr62Lqo7zRiCJFSBmbkwTGNuuES9ES5TgaVHceuYc4Y75txCTU
-```
-
-## PGP Key
-```
------BEGIN PGP PUBLIC KEY BLOCK-----
-Version: GnuPG v2
-
-mQENBFhYUmUBCAC6493W5y1MMs38ApRbI11jWUqNdFm686XLkZWGDfYImzL6pEYk
-RdWkyt9ziCyA6NUeWFQYniv/z10RxYKq8ulVVJaKb9qPGMU0ESfdxlFNJkU/pf28
-sEVBagGvGw8uFxjQONnBJ7y7iNRWMN7qSRS636wN5ryTHNsmqI4ClXPHkXkDCDUX
-QvhXZpG9RRM6jsE3jBGz/LJi3FyZLo/vB60OZBODJ2IA0wSR41RRiOq01OqDueva
-9jPoAokNglJfn/CniQ+lqUEXj1vjAZ1D5Mn9fISzA/UPen5Z7Sipaa9aAtsDBOfP
-K9iPKOsWa2uTafoyXgiwEVXCCeMMUjCGaoFBABEBAAG0ImZpcmVpY2VfdWsgPGZp
-cmVpY2UueG1yQGdtYWlsLmNvbT6JATcEEwEIACEFAlhYUmUCGwMFCwkIBwIGFQgJ
-CgsCBBYCAwECHgECF4AACgkQ+yT3mn7UHDTEcQf8CMhqaZ0IOBxeBnsq5HZr2X6z
-E5bODp5cPs6ha1tjH3CWpk1AFeykNtXH7kPW9hcDt/e4UQtcHs+lu6YU59X7xLJQ
-udOkpWdmooJMXRWS/zeeon4ivT9d69jNnwubh8EJOyw8xm/se6n48BcewfHekW/6
-mVrbhLbF1dnuUGXzRN1WxsUZx3uJd2UvrkJhAtHtX92/qIVhT0+3PXV0bmpHURlK
-YKhhm8dPLV9jPX8QVRHQXCOHSMqy/KoWEe6CnT0Isbkq3JtS3K4VBVeTX9gkySRc
-IFxrNJdXsI9BxKv4O8yajP8DohpoGLMDKZKSO0yq0BRMgMh0cw6Lk22uyulGALkB
-DQRYWFJlAQgAqikfViOmIccCZKVMZfNHjnigKtQqNrbJpYZCOImql4FqbZu9F7TD
-9HIXA43SPcwziWlyazSy8Pa9nCpc6PuPPO1wxAaNIc5nt+w/x2EGGTIFGjRoubmP
-3i5jZzOFYsvR2W3PgVa3/ujeYYJYo1oeVeuGmmJRejs0rp1mbvBSKw1Cq6C4cI0x
-GTY1yXFGLIgdfYNMmiLsTy1Qwq8YStbFKeUYAMMG3128SAIaT3Eet911f5Jx4tC8
-6kWUr6PX1rQ0LQJqyIsLq9U53XybUksRfJC9IEfgvgBxRBHSD8WfqEhHjhW1VsZG
-dcYgr7A1PIneWsCEY+5VUnqTlt2HPaKweQARAQABiQEfBBgBCAAJBQJYWFJlAhsM
-AAoJEPsk95p+1Bw0Pr8H/0vZ6U2zaih03jOHOvsrYxRfDXSmgudOp1VS45aHIREd
-2nrJ+drleeFVyb14UQqO/6iX9GuDX2yBEHdCg2aljeP98AaMU//RiEtebE6CUWsL
-HPVXHIkxwBCBe0YkJINHUQqLz/5f6qLsNUp1uTH2++zhdBWvg+gErTYbx8aFMFYH
-0GoOtqE5rtlAh5MTvDZm+UcDwKJCxhrLaN3R3dDoyrDNRTgHQQuX5/opJBiUnVNK
-d+vugnxzpMIJQP11yCZkz/KxV8zQ2QPMuZdAoh3znd/vGCJcp0rWphn4pqxA4vDp
-c4hC0Yg9Dha1OoE5CJCqVL+ic4vAyB1urAwBlsd/wH8=
-=B5I+
------END PGP PUBLIC KEY BLOCK-----
 ```
 
 ## Common Issues
@@ -208,3 +175,37 @@ To work (surf) with you desktop system while you are running the miner you need 
 On windows, you need to set the option `bfactor` and `bsleep` if the miner crashs shortly after starting.
 A good value to start on windows is `"bfactor" : 6, "bsleep" :  25`.
 To reach the maximum hash rate you must set both values to zero `"bfactor" : 0, "bsleep" : 0`.
+
+## PGP Key
+```
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2
+
+mQENBFhYUmUBCAC6493W5y1MMs38ApRbI11jWUqNdFm686XLkZWGDfYImzL6pEYk
+RdWkyt9ziCyA6NUeWFQYniv/z10RxYKq8ulVVJaKb9qPGMU0ESfdxlFNJkU/pf28
+sEVBagGvGw8uFxjQONnBJ7y7iNRWMN7qSRS636wN5ryTHNsmqI4ClXPHkXkDCDUX
+QvhXZpG9RRM6jsE3jBGz/LJi3FyZLo/vB60OZBODJ2IA0wSR41RRiOq01OqDueva
+9jPoAokNglJfn/CniQ+lqUEXj1vjAZ1D5Mn9fISzA/UPen5Z7Sipaa9aAtsDBOfP
+K9iPKOsWa2uTafoyXgiwEVXCCeMMUjCGaoFBABEBAAG0ImZpcmVpY2VfdWsgPGZp
+cmVpY2UueG1yQGdtYWlsLmNvbT6JATcEEwEIACEFAlhYUmUCGwMFCwkIBwIGFQgJ
+CgsCBBYCAwECHgECF4AACgkQ+yT3mn7UHDTEcQf8CMhqaZ0IOBxeBnsq5HZr2X6z
+E5bODp5cPs6ha1tjH3CWpk1AFeykNtXH7kPW9hcDt/e4UQtcHs+lu6YU59X7xLJQ
+udOkpWdmooJMXRWS/zeeon4ivT9d69jNnwubh8EJOyw8xm/se6n48BcewfHekW/6
+mVrbhLbF1dnuUGXzRN1WxsUZx3uJd2UvrkJhAtHtX92/qIVhT0+3PXV0bmpHURlK
+YKhhm8dPLV9jPX8QVRHQXCOHSMqy/KoWEe6CnT0Isbkq3JtS3K4VBVeTX9gkySRc
+IFxrNJdXsI9BxKv4O8yajP8DohpoGLMDKZKSO0yq0BRMgMh0cw6Lk22uyulGALkB
+DQRYWFJlAQgAqikfViOmIccCZKVMZfNHjnigKtQqNrbJpYZCOImql4FqbZu9F7TD
+9HIXA43SPcwziWlyazSy8Pa9nCpc6PuPPO1wxAaNIc5nt+w/x2EGGTIFGjRoubmP
+3i5jZzOFYsvR2W3PgVa3/ujeYYJYo1oeVeuGmmJRejs0rp1mbvBSKw1Cq6C4cI0x
+GTY1yXFGLIgdfYNMmiLsTy1Qwq8YStbFKeUYAMMG3128SAIaT3Eet911f5Jx4tC8
+6kWUr6PX1rQ0LQJqyIsLq9U53XybUksRfJC9IEfgvgBxRBHSD8WfqEhHjhW1VsZG
+dcYgr7A1PIneWsCEY+5VUnqTlt2HPaKweQARAQABiQEfBBgBCAAJBQJYWFJlAhsM
+AAoJEPsk95p+1Bw0Pr8H/0vZ6U2zaih03jOHOvsrYxRfDXSmgudOp1VS45aHIREd
+2nrJ+drleeFVyb14UQqO/6iX9GuDX2yBEHdCg2aljeP98AaMU//RiEtebE6CUWsL
+HPVXHIkxwBCBe0YkJINHUQqLz/5f6qLsNUp1uTH2++zhdBWvg+gErTYbx8aFMFYH
+0GoOtqE5rtlAh5MTvDZm+UcDwKJCxhrLaN3R3dDoyrDNRTgHQQuX5/opJBiUnVNK
+d+vugnxzpMIJQP11yCZkz/KxV8zQ2QPMuZdAoh3znd/vGCJcp0rWphn4pqxA4vDp
+c4hC0Yg9Dha1OoE5CJCqVL+ic4vAyB1urAwBlsd/wH8=
+=B5I+
+-----END PGP PUBLIC KEY BLOCK-----
+```
