@@ -41,7 +41,7 @@ public:
         printer::inst()->print_str("The miner evaluates your system and prints a suggestion for the section `gpu_threads_conf` to the terminal.\n");
         printer::inst()->print_str("The values are not optimal, please try to tweak the values based on the suggestion.\n");
         printer::inst()->print_str("Please copy past the block within the asterisks to your config.\n");
-        printer::inst()->print_str("\n**************** Copy&Past ****************\n\n");
+        printer::inst()->print_str("\n**************** Copy&Paste ****************\n\n");
         int i = 0;
         // evaluate config parameter for if auto adjustment is needed
         for(auto& cfg : cfgVec)
@@ -72,7 +72,7 @@ public:
         }
 
         printThreadConfig();
-        printer::inst()->print_str("\n**************** Copy&Past ****************\n");
+        printer::inst()->print_str("\n**************** Copy&Paste ****************\n");
 
     }
 
