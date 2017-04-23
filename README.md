@@ -21,31 +21,32 @@ Hash: SHA256
 Windows binary release checksums
 
 sha1sum
-cda5710d8b6f0d3a6b9d2b2d844366bc232d3e64  xmr-stak-nvidia.exe
-9b20c03fe7b5dacd0049ae26ab1b0bdfcfc250df  xmr-stak-nvidia-notls.exe
+db795d6ac4f5debf0a476f8f4e26baa5ecaf49aa  xmr-stak-nvidia.exe
+a5e957bfbf0ec172f0795e07384829a1b6a29910  xmr-stak-nvidia-notls.exe
 a4c5aefbf0af000dca264c3342a68fa41fb6e272  cudart64_80.dll
 d34a0ba0dd7b3b1f900a7e02772e197e974b4a73  libeay32.dll
 2ee9966a0fc163da58408d91be36b84fa287c10b  ssleay32.dll
 
 sha3sum
-299127e5a13c8b7bd44a3b4b036d19fbbce0429bed499c17b39ef2b7  xmr-stak-nvidia.exe
-62067b326e3291bc01061cdcb620ca49b709ef31bc3a6023cce9ba12  xmr-stak-nvidia-notls.exe
+d3740b4046ec596cb2d9cfbc9a0e32bd5ae51fe786ba4c205f5f0166  xmr-stak-nvidia.exe
+d7860e4465e1c88a5a133248afd651c2d4ef27b1eda85ceb9c8f07c5  xmr-stak-nvidia-notls.exe
 571633217a1592d56239d0a55c046b0e3e38cd68548b141b830a44c6  cudart64_80.dll
 133c065d9ef2c93396382e2ba5d8c3ca8c6a57c6beb0159cb9a4b6c5  ssleay32.dll
 05003137a87313c81d6c348c9b96411c95d48dc22c35f36c39129747  libeay32.dll
 
 date
-Sat 15 Apr 20:44:30 BST 2017
+Sun 23 Apr 23:23:01 BST 2017
+
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQEcBAEBCAAGBQJY8ng6AAoJEPsk95p+1Bw0DiEH/RKdXd0TXV3ANxrH+QKjokzJ
-39qhLAUslhfI5eg7U9NjS+vQHEAocm/qtToDhO02Wg+LsNSbPgRMAzW9726nrKNO
-WuGrFrg6dZaNvJVpqOrhz7ww6Zk4F/aLDZZEVqAMT9JfTWRMR7qRirpOZZPbMJlb
-Ck1O/uUOumyc68n5EoERBnjOeaX7eU2cAXfbO9o5/KPzHV4O0iRfTqMniR7gQQTc
-VDZK2WlPa9hHu0ApcviQN11HOhHzFTbGVOji5irkng1ZswoKVS+8ZlOtvFfYWhu8
-6MWjQK3Ztc+08PDH/CGlcS9u++8r7lTXYzYloFZZvro+GVA5bnLnL4kVxpa7ClY=
-=Bd5J
+iQEcBAEBCAAGBQJY/SlhAAoJEPsk95p+1Bw0f0MH/0/6g6A+PtIbVrW5rcdroVBQ
+o8/+KWJXmxDgTCzmPcZTq0rw7mIyfMDTYYtDX6VACtMdbpZkWmVlcRwSS2BrfEoq
+2DS7MgNhbAc4J8ykmuVO+lkNmanbkNsqCwLjF37KAvpeaJOV2dAIjqXAeMshZdq0
+fqlKZq7FHcaRmwLC4BWvXczjYmwL1B8s9sdPyulMHom6knXMavN8zrJ7FkBJnqdc
+7A/f5AAPYzryDDfk5Vicdo8vt/ZAcy7jKUSjQew5wED6vabUqZsYgNwIQlQVj82e
+wwNwFCe2W4VNKJfTmSZ7uxzNNHI9hml7W58wT8zFLG/OYjaYLuTnRDI0shePJA8=
+=7wrx
 -----END PGP SIGNATURE-----
 
 ```
