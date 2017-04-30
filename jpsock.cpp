@@ -32,8 +32,9 @@
 #include "jext.h"
 #include "socks.h"
 #include "socket.h"
+#include "version.h"
 
-#define AGENTID_STR "xmr-stak-nvidia/1.4.0"
+#define AGENTID_STR XMR_STAK_NAME "/" XMR_STAK_VERSION
 
 using namespace rapidjson;
 
