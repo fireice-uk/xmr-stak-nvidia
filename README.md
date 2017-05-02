@@ -137,12 +137,12 @@ and install.
     export CXX=/usr/bin/clang++
     cmake . -DCUDA_COMPILER=clang
 ```
-- `MICROHTTPD_REQUIRED` allow to disable/enable the dependency *microhttpd*
+- `MICROHTTPD_ENABLE` allow to disable/enable the dependency *microhttpd*
   - by default enabled
-  - there is no *http* interface available if option is disabled: `cmake . -DMICROHTTPD_REQUIRED=OFF`
-- `OpenSSL_REQUIRED`allow to disable/enable the dependency *OpenSSL*
+  - there is no *http* interface available if option is disabled: `cmake . -DMICROHTTPD_ENABLE=OFF`
+- `OpenSSL_ENABLE`allow to disable/enable the dependency *OpenSSL*
   - by default enabled
-  - it is not possible to connect to a *TLS* secured pool if optin is disabled: `cmake . -DOpenSSL_REQUIRED=OFF`
+  - it is not possible to connect to a *TLS* secured pool if optin is disabled: `cmake . -DOpenSSL_ENABLE=OFF`
 - `XMR-STAK_LARGEGRID` use `32` or `64` bit integer for on device indices
   - default is enabled
   - on old GPUs it can increase the hash rate if disabled: `cmake . -DXMR-STAK_LARGEGRID=OFF`
