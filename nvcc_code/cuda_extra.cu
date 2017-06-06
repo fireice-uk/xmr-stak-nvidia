@@ -247,6 +247,12 @@ extern "C" void cryptonight_extra_cpu_final(nvid_ctx* ctx, uint32_t startNonce, 
 	cudaMemcpy( resnonce, ctx->d_result_nonce, 10 * sizeof (uint32_t ), cudaMemcpyDeviceToHost );
 	exit_if_cudaerror(ctx->device_id, __FILE__, __LINE__ );
 
+	/* There is only a 32bit limit for the counter on the device side
+	 * therefore this value can be greater than 10, in that case limit rescount
+	 * to 10 entries.
+	 */
+	if(*rescount > 10)
+		*rescount = 10;
 	for(int i=0; i < *rescount; i++)
 		resnonce[i] += startNonce;
 }
