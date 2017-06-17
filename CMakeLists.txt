@@ -24,7 +24,7 @@ list(APPEND CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
 # https://github.com/fireice-uk/xmr-stak-nvidia/pull/10#issuecomment-290821792
 # If you remove this guard to compile with older gcc versions the miner will produce
 # a high rate of wrong shares.
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
         message(FATAL_ERROR "GCC version must be at least 5.1!")
     endif()
@@ -47,7 +47,7 @@ endif()
 set(DEVICE_COMPILER "nvcc")
 set(CUDA_COMPILER "${DEVICE_COMPILER}" CACHE STRING "Select the device compiler")
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     list(APPEND DEVICE_COMPILER "clang")
 endif()
 
@@ -139,7 +139,7 @@ else()
 endif()
 
 ################################################################################
-# Find PThreads
+# Find Threads
 ################################################################################
 
 find_package(Threads REQUIRED)
@@ -151,7 +151,14 @@ set(LIBS ${LIBS} ${CMAKE_THREAD_LIBS_INIT})
 
 option(MICROHTTPD_ENABLE "Enable or disable the requirement of microhttp (http deamon)" ON)
 if(MICROHTTPD_ENABLE)
-    find_library(MHTD NAMES microhttpd)
+    find_library(MHTD
+        NAMES
+            microhttpd
+            libmicrohttpd.lib
+        PATHS
+            ENV "MICROHTTPD_ROOT"
+        PATH_SUFFIXES
+            lib)
     if("${MHTD}" STREQUAL "MHTD-NOTFOUND")
         message(FATAL_ERROR "microhttpd NOT found: use `-DMICROHTTPD_ENABLE=OFF` to build without http deamon support")
     else()
@@ -176,6 +183,14 @@ if(OpenSSL_ENABLE)
     endif()
 else()
     add_definitions("-DCONF_NO_TLS")
+endif()
+
+################################################################################
+# Windows Sockets
+################################################################################
+
+if(WIN32)
+    set(LIBS ${LIBS} wsock32 ws2_32)
 endif()
 
 ################################################################################
@@ -228,7 +243,7 @@ add_executable(xmr-stak-nvidia
 )
 
 # for gnu compiler <5.1 wee need to activate c++11 by explicit for cuda and all cpp files
-if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1))
+if((${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1))
     set_target_properties(xmr-stak-nvidiaCuda PROPERTIES COMPILE_FLAGS -std=c++11)
     set_target_properties(xmr-stak-nvidia PROPERTIES COMPILE_FLAGS -std=c++11)
 endif()
