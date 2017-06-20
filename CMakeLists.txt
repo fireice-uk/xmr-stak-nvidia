@@ -87,7 +87,6 @@ option(CUDA_SHOW_REGISTER "Show registers used for each kernel and compute archi
 option(CUDA_KEEP_FILES "Keep all intermediate files that are generated during internal compilation steps" OFF)
 
 if("${CUDA_COMPILER}" STREQUAL "clang")
-    set(LIBS ${LIBS} cudart_static)
     set(CLANG_BUILD_FLAGS "-O3 -x cuda --cuda-path=${CUDA_TOOLKIT_ROOT_DIR}")
     # activation usage of FMA
     set(CLANG_BUILD_FLAGS "${CLANG_BUILD_FLAGS} -ffp-contract=fast")
@@ -209,6 +208,7 @@ if("${CUDA_COMPILER}" STREQUAL "clang")
     set_target_properties(xmr-stak-nvidiaCuda PROPERTIES COMPILE_FLAGS ${CLANG_BUILD_FLAGS})
     set_target_properties(xmr-stak-nvidiaCuda PROPERTIES LINKER_LANGUAGE CXX)
     set_source_files_properties(${CUDASRCFILES} PROPERTIES LANGUAGE CXX)
+    target_link_libraries(xmr-stak-nvidiaCuda PUBLIC ${LIBS})
 else()
     # build device code with nvcc
     cuda_add_library(xmr-stak-nvidiaCuda
