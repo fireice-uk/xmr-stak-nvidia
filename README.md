@@ -74,7 +74,7 @@ You can find a complete compile guide under [Advanced Compile Options](#advanced
 
 ## Default dev donation
 
-By default the miner will donate 1% of the hashpower (1 minute in 100 minutes) to our pool. If you want to change that, edit **donate-level.h** before you build the binaries.
+By default the miner will donate 2% of the hashpower (2 minute in 100 minutes) to our pool. If you want to change that, edit **donate-level.h** before you build the binaries.
 
 If you want to donate directly to support further development, here are our wallets
 
