@@ -49,6 +49,9 @@ VDZK2WlPa9hHu0ApcviQN11HOhHzFTbGVOji5irkng1ZswoKVS+8ZlOtvFfYWhu8
 -----END PGP SIGNATURE-----
 
 ```
+## Compile for Windows
+
+- see [WINCOMPILE.md](WINCOMPILE.md)
 
 ## Compile on Linux (Debian-based distros)
 
