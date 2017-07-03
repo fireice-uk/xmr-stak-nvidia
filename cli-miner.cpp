@@ -182,7 +182,7 @@ void do_benchmark()
 	printer::inst()->print_msg(L0, "Running a 60 second benchmark...");
 
 	uint8_t work[76] = {0};
-	minethd::miner_work oWork = minethd::miner_work("", work, sizeof(work), 0, 0, 0);
+	minethd::miner_work oWork = minethd::miner_work("", work, sizeof(work), 0, 0, false, 0);
 	pvThreads = minethd::thread_starter(oWork);
 
 	uint64_t iStartStamp = time_point_cast<milliseconds>(high_resolution_clock::now()).time_since_epoch().count();

@@ -45,7 +45,7 @@ using namespace rapidjson;
 /*
  * This enum needs to match index in oConfigValues, otherwise we will get a runtime error
  */
-enum configEnum { aGpuThreadsConf,
+enum configEnum { aGpuThreadsConf, bNiceHashMode,
 	bTlsMode, bTlsSecureAlgo, sTlsFingerprint, sPoolAddr, sWalletAddr, sPoolPwd,
 	iCallTimeout, iNetRetry, iGiveUpLimit, iVerboseLevel, iAutohashTime,
 	sOutputFile, iHttpdPort, bPreferIpv4 };
@@ -60,6 +60,7 @@ struct configVal {
 // kNullType means any type
 configVal oConfigValues[] = {
 	{ aGpuThreadsConf, "gpu_threads_conf", kNullType },
+	{ bNiceHashMode, "nicehash_nonce", kTrueType },
 	{ bTlsMode, "use_tls", kTrueType },
 	{ bTlsSecureAlgo, "tls_secure_algo", kTrueType },
 	{ sTlsFingerprint, "tls_fingerprint", kStringType },
@@ -249,6 +250,11 @@ uint16_t jconf::GetHttpdPort()
 const char* jconf::GetOutputFile()
 {
 	return prv->configValues[sOutputFile]->GetString();
+}
+
+bool jconf::NiceHashMode()
+{
+	return prv->configValues[bNiceHashMode]->GetBool();
 }
 
 bool jconf::check_cpu_features()
