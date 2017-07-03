@@ -29,14 +29,15 @@ public:
 		uint32_t    iWorkSize;
 		uint32_t    iResumeCnt;
 		uint64_t    iTarget;
+		bool        bNiceHash;
 		bool        bStall;
 		size_t      iPoolId;
 
 		miner_work() : iWorkSize(0), bStall(true), iPoolId(0) { }
 
 		miner_work(const char* sJobID, const uint8_t* bWork, uint32_t iWorkSize, 
-			uint32_t iResumeCnt, uint64_t iTarget, size_t iPoolId) : iWorkSize(iWorkSize), 
-			iResumeCnt(iResumeCnt), iTarget(iTarget), bStall(false), iPoolId(iPoolId)
+			uint32_t iResumeCnt, uint64_t iTarget, bool bNiceHash, size_t iPoolId) : iWorkSize(iWorkSize), 
+			iResumeCnt(iResumeCnt), iTarget(iTarget), bNiceHash(bNiceHash), bStall(false), iPoolId(iPoolId)
 		{
 			assert(iWorkSize <= sizeof(bWorkBlob));
 			memcpy(this->sJobID, sJobID, sizeof(miner_work::sJobID));
@@ -52,6 +53,7 @@ public:
 			iWorkSize = from.iWorkSize;
 			iResumeCnt = from.iResumeCnt;
 			iTarget = from.iTarget;
+			bNiceHash = from.bNiceHash;
 			bStall = from.bStall;
 			iPoolId = from.iPoolId;
 
@@ -77,6 +79,7 @@ public:
 			iWorkSize = from.iWorkSize;
 			iResumeCnt = from.iResumeCnt;
 			iTarget = from.iTarget;
+			bNiceHash = from.bNiceHash;
 			bStall = from.bStall;
 			iPoolId = from.iPoolId;
 
@@ -104,6 +107,10 @@ private:
 	// Bottom 24 bits allow for an hour of work at 4000 H/s
 	inline uint32_t calc_start_nonce(uint32_t resume)
 		{ return (resume * iThreadCount + iThreadNo) << 24; }
+
+	// Limited version of the nonce calc above
+	inline uint32_t calc_nicehash_nonce(uint32_t start, uint32_t resume)
+		{ return start | (resume * iThreadCount + iThreadNo) << 18; }
 
 	void work_main();
 	void consume_work();

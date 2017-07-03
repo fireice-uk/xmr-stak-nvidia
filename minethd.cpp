@@ -247,6 +247,9 @@ void minethd::work_main()
 {
 	uint64_t iCount = 0;
 	uint32_t iNonce;
+	uint32_t* piNonce;
+
+	piNonce = (uint32_t*)(oWork.bWorkBlob + 39);
 
 	iConsumeCnt++;
 
@@ -272,7 +275,11 @@ void minethd::work_main()
 		}
 
 		cryptonight_extra_cpu_set_data(&ctx, oWork.bWorkBlob, oWork.iWorkSize);
-		iNonce = calc_start_nonce(oWork.iResumeCnt);
+		//iNonce = calc_start_nonce(oWork.iResumeCnt);
+		if(oWork.bNiceHash)
+			iNonce = calc_nicehash_nonce(*piNonce, oWork.iResumeCnt);
+		else
+			iNonce = calc_start_nonce(oWork.iResumeCnt);
 
 		assert(sizeof(job_result::sJobID) == sizeof(pool_job::sJobID));
 
