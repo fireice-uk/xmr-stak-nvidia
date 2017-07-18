@@ -37,6 +37,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <time.h>
+
 #ifndef CONF_NO_TLS
 #include <openssl/ssl.h>
 #include <openssl/err.h>
@@ -69,6 +71,8 @@ int main(int argc, char *argv[])
 	SSL_load_error_strings();
 	OpenSSL_add_all_digests();
 #endif
+
+	srand(time(0));
 
 	const char* sFilename = "config.txt";
 	bool benchmark_mode = false;
