@@ -49,7 +49,6 @@ executor* executor::oInst = NULL;
 
 executor::executor()
 {
-	my_thd = nullptr;
 	cpu_ctx = (cryptonight_ctx*)_mm_malloc(sizeof(cryptonight_ctx), 4096);
 }
 

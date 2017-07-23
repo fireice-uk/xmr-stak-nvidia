@@ -50,6 +50,9 @@ wwNwFCe2W4VNKJfTmSZ7uxzNNHI9hml7W58wT8zFLG/OYjaYLuTnRDI0shePJA8=
 -----END PGP SIGNATURE-----
 
 ```
+## Compile for Windows
+
+- see [WINCOMPILE.md](WINCOMPILE.md)
 
 ## Compile on Linux (Debian-based distros)
 
@@ -75,7 +78,7 @@ You can find a complete compile guide under [Advanced Compile Options](#advanced
 
 ## Default dev donation
 
-By default the miner will donate 1% of the hashpower (1 minute in 100 minutes) to our pool. If you want to change that, edit **donate-level.h** before you build the binaries.
+By default the miner will donate 2% of the hashpower (2 minute in 100 minutes) to our pool. If you want to change that, edit **donate-level.h** before you build the binaries.
 
 If you want to donate directly to support further development, here are our wallets
 
@@ -138,12 +141,12 @@ and install.
     export CXX=/usr/bin/clang++
     cmake . -DCUDA_COMPILER=clang
 ```
-- `MICROHTTPD_REQUIRED` allow to disable/enable the dependency *microhttpd*
+- `MICROHTTPD_ENABLE` allow to disable/enable the dependency *microhttpd*
   - by default enabled
-  - there is no *http* interface available if option is disabled: `cmake . -DMICROHTTPD_REQUIRED=OFF`
-- `OpenSSL_REQUIRED`allow to disable/enable the dependency *OpenSSL*
+  - there is no *http* interface available if option is disabled: `cmake . -DMICROHTTPD_ENABLE=OFF`
+- `OpenSSL_ENABLE`allow to disable/enable the dependency *OpenSSL*
   - by default enabled
-  - it is not possible to connect to a *TLS* secured pool if optin is disabled: `cmake . -DOpenSSL_REQUIRED=OFF`
+  - it is not possible to connect to a *TLS* secured pool if optin is disabled: `cmake . -DOpenSSL_ENABLE=OFF`
 - `XMR-STAK_LARGEGRID` use `32` or `64` bit integer for on device indices
   - default is enabled
   - on old GPUs it can increase the hash rate if disabled: `cmake . -DXMR-STAK_LARGEGRID=OFF`

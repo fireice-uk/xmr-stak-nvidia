@@ -24,7 +24,7 @@ list(APPEND CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
 # https://github.com/fireice-uk/xmr-stak-nvidia/pull/10#issuecomment-290821792
 # If you remove this guard to compile with older gcc versions the miner will produce
 # a high rate of wrong shares.
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
         message(FATAL_ERROR "GCC version must be at least 5.1!")
     endif()
@@ -36,6 +36,9 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "${BUILD_TYPE}")
 
+# option to add static libgcc and libstdc++
+option(CMAKE_LINK_STATIC "link as much as possible libraries static" OFF)
+
 option(XMR-STAK_LARGEGRID "Support large CUDA block count > 128" ON)
 if(XMR-STAK_LARGEGRID)
     add_definitions("-DXMR_STAK_LARGEGRID=${XMR-STAK_LARGEGRID}")
@@ -44,7 +47,7 @@ endif()
 set(DEVICE_COMPILER "nvcc")
 set(CUDA_COMPILER "${DEVICE_COMPILER}" CACHE STRING "Select the device compiler")
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     list(APPEND DEVICE_COMPILER "clang")
 endif()
 
@@ -84,7 +87,6 @@ option(CUDA_SHOW_REGISTER "Show registers used for each kernel and compute archi
 option(CUDA_KEEP_FILES "Keep all intermediate files that are generated during internal compilation steps" OFF)
 
 if("${CUDA_COMPILER}" STREQUAL "clang")
-    set(LIBS ${LIBS} cudart_static)
     set(CLANG_BUILD_FLAGS "-O3 -x cuda --cuda-path=${CUDA_TOOLKIT_ROOT_DIR}")
     # activation usage of FMA
     set(CLANG_BUILD_FLAGS "${CLANG_BUILD_FLAGS} -ffp-contract=fast")
@@ -136,7 +138,7 @@ else()
 endif()
 
 ################################################################################
-# Find PThreads
+# Find Threads
 ################################################################################
 
 find_package(Threads REQUIRED)
@@ -146,36 +148,48 @@ set(LIBS ${LIBS} ${CMAKE_THREAD_LIBS_INIT})
 # Find microhttpd
 ################################################################################
 
-option(MICROHTTPD_REQUIRED "Enable or disable the requirement of microhttp (http deamon)" ON)
-find_library(MHTD NAMES microhttpd)
-if("${MHTD}" STREQUAL "MHTD-NOTFOUND")
-    if(MICROHTTPD_REQUIRED)
-        message(FATAL_ERROR "microhttpd NOT found: use `-DMICROHTTPD_REQUIRED=OFF` to build without http deamon support")
+option(MICROHTTPD_ENABLE "Enable or disable the requirement of microhttp (http deamon)" ON)
+if(MICROHTTPD_ENABLE)
+    find_library(MHTD
+        NAMES
+            microhttpd
+            libmicrohttpd.lib
+        PATHS
+            ENV "MICROHTTPD_ROOT"
+        PATH_SUFFIXES
+            lib)
+    if("${MHTD}" STREQUAL "MHTD-NOTFOUND")
+        message(FATAL_ERROR "microhttpd NOT found: use `-DMICROHTTPD_ENABLE=OFF` to build without http deamon support")
     else()
-        message(STATUS "microhttpd NOT found: disable http server")
-        add_definitions("-DCONF_NO_HTTPD")
+        set(LIBS ${LIBS} ${MHTD})
     endif()
 else()
-    set(LIBS ${LIBS} ${MHTD})
+    add_definitions("-DCONF_NO_HTTPD")
 endif()
 
 ###############################################################################
 # Find OpenSSL
 ###############################################################################
 
-option(OpenSSL_REQUIRED "Enable or disable the requirement of OpenSSL" ON)
-find_package(OpenSSL)
-if(OPENSSL_FOUND)
-    include_directories(${OPENSSL_INCLUDE_DIR})
-    set(LIBS ${LIBS} ${OPENSSL_LIBRARIES})
-else()
-    if(OpenSSL_REQUIRED)
-        message(FATAL_ERROR "OpenSSL NOT found: use `-DOpenSSL_REQUIRED=OFF` to build without SSL support")
+option(OpenSSL_ENABLE "Enable or disable the requirement of OpenSSL" ON)
+if(OpenSSL_ENABLE)
+    find_package(OpenSSL)
+    if(OPENSSL_FOUND)
+        include_directories(${OPENSSL_INCLUDE_DIR})
+        set(LIBS ${LIBS} ${OPENSSL_LIBRARIES})
     else()
-        if(NOT OPENSSL_FOUND)
-            add_definitions("-DCONF_NO_TLS")
-        endif()
+        message(FATAL_ERROR "OpenSSL NOT found: use `-DOpenSSL_ENABLE=OFF` to build without SSL support")
     endif()
+else()
+    add_definitions("-DCONF_NO_TLS")
+endif()
+
+################################################################################
+# Windows Sockets
+################################################################################
+
+if(WIN32)
+    set(LIBS ${LIBS} wsock32 ws2_32)
 endif()
 
 ################################################################################
@@ -186,6 +200,15 @@ include_directories(.)
 
 # activate sse2 and aes-ni
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2 -maes")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -msse2 -maes")
+
+# activate static libgcc and libstdc++ linking
+if(CMAKE_LINK_STATIC)
+    set(BUILD_SHARED_LIBRARIES OFF)
+    set(DL_LIB ${CMAKE_DL_LIBS})
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(LIBS "-static-libgcc -static-libstdc++ ${LIBS}")
+endif()
 
 file(GLOB CUDASRCFILES "nvcc_code/*.cu")
 file(GLOB SRCFILES "*.cpp" "crypto/*.cpp")
@@ -200,6 +223,7 @@ if("${CUDA_COMPILER}" STREQUAL "clang")
     set_target_properties(xmr-stak-nvidiaCuda PROPERTIES COMPILE_FLAGS ${CLANG_BUILD_FLAGS})
     set_target_properties(xmr-stak-nvidiaCuda PROPERTIES LINKER_LANGUAGE CXX)
     set_source_files_properties(${CUDASRCFILES} PROPERTIES LANGUAGE CXX)
+    target_link_libraries(xmr-stak-nvidiaCuda PUBLIC ${LIBS})
 else()
     # build device code with nvcc
     cuda_add_library(xmr-stak-nvidiaCuda
@@ -219,7 +243,7 @@ add_executable(xmr-stak-nvidia
 )
 
 # for gnu compiler <5.1 wee need to activate c++11 by explicit for cuda and all cpp files
-if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1))
+if((${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1))
     set_target_properties(xmr-stak-nvidiaCuda PROPERTIES COMPILE_FLAGS -std=c++11)
     set_target_properties(xmr-stak-nvidia PROPERTIES COMPILE_FLAGS -std=c++11)
 endif()

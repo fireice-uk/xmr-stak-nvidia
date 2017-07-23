@@ -45,6 +45,8 @@ public:
 
 	uint16_t GetHttpdPort();
 
+	bool DaemonMode();
+
 	bool PreferIpv4();
 
 	inline bool HaveHardwareAes() { return bHaveAes; }
