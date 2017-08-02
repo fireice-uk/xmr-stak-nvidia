@@ -18,7 +18,7 @@
 
 ### Cuda 8.0+
 
-- donwload and install https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-downloads)
+- donwload and install [https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-downloads)
 - for minimal install choose `Custom installation options` during the install and select
     - CUDA/Develpment
     - CUDA/Visual Studio Integration (ignore the warning during the install that VS2017 is not supported)
@@ -40,7 +40,8 @@
 
 - download the precompiled binary from [http://ftpmirror.gnu.org/libmicrohttpd/](http://ftpmirror.gnu.org/libmicrohttpd/)
 - tested version: [libmicrohttpd-0.9.55-w32-bin](http://mirror.reismil.ch/gnu/libmicrohttpd/libmicrohttpd-0.9.55-w32-bin.zip)
-- unzip microhttpd to ``C:\xmr-stak-dep`
+- unzip microhttpd to `C:\xmr-stak-dep`
+- Add the microhttpd lib folder to the enviroment variable `MICROHTTPD_ROOT` (if you follow exactly the steps before: `C:\xmr-stak-dep\libmicrohttpd-0.9.55-w32-bin\x86_64\VS2017\Release-static`)
 
 ### Validate the Dependency Folder
 
@@ -142,3 +143,5 @@
   copy ..\..\..\config.txt .
   ```
 - customize your `config.txt` file by adding the pool, username and password
+
+If your system does not recognize msbuild as a command, you can also open the solution with Visual Studio 2017, select the right configuration (Release, x64) and build within the IDE (Pressing F7)
