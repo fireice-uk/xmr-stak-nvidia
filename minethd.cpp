@@ -47,7 +47,7 @@ void thd_setaffinity(std::thread::native_handle_type h, uint64_t cpu_id)
 {
 #if defined(__APPLE__)
 	thread_port_t mach_thread;
-	thread_affinity_policy_data_t policy = { cpu_id };
+	thread_affinity_policy_data_t policy = { (int)cpu_id };
 	mach_thread = pthread_mach_thread_np(h);
 	thread_policy_set(mach_thread, THREAD_AFFINITY_POLICY, (thread_policy_t)&policy, 1);
 #else
@@ -253,7 +253,7 @@ void minethd::work_main()
 	if(cuda_get_deviceinfo(&ctx) != 1 || cryptonight_extra_cpu_init(&ctx) != 1)
 	{
 		printer::inst()->print_msg(L0, "Setup failed for GPU %d. Exitting.\n", (int)iThreadNo);
-		std::exit(0);
+		exit(0);
 	}
 
 	while (bQuit == 0)
