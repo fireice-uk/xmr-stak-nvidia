@@ -21,6 +21,7 @@
   *
   */
 
+#include <cstdlib>
 #include <assert.h>
 #include <cmath>
 #include <chrono>
@@ -253,7 +254,7 @@ void minethd::work_main()
 	if(cuda_get_deviceinfo(&ctx) != 1 || cryptonight_extra_cpu_init(&ctx) != 1)
 	{
 		printer::inst()->print_msg(L0, "Setup failed for GPU %d. Exitting.\n", (int)iThreadNo);
-		exit(0);
+		std::exit(0);
 	}
 
 	while (bQuit == 0)
