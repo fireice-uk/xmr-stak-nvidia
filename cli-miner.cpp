@@ -76,12 +76,32 @@ int main(int argc, char *argv[])
 
 	const char* sFilename = "config.txt";
 	bool benchmark_mode = false;
+	char buffer[128];
+
+	printer::inst()->print_str("-------------------------------------------------------------------\n");
+	printer::inst()->print_str( XMR_STAK_NAME" " XMR_STAK_VERSION " mining software, NVIDIA Version.\n");
+	printer::inst()->print_str("NVIDIA mining code was written by KlausT and psychocrypt.\n");
+	printer::inst()->print_str("Brought to you by fireice_uk under GPLv3.\n\n");
+	snprintf(buffer, sizeof(buffer), "Configurable dev donation level is set to %.1f %%\n\n", fDevDonationLevel * 100.0);
+	printer::inst()->print_str(buffer);
 
 	if(argc >= 2)
 	{
 		if(strcmp(argv[1], "-h") == 0)
 		{
-			printer::inst()->print_msg(L0, "Usage %s [CONFIG FILE]", argv[0]);
+			snprintf(buffer, sizeof(buffer), "Default config file is \"%s\"\n\n", sFilename);
+			printer::inst()->print_str(buffer);
+			printer::inst()->print_str("Usage:\n");
+			snprintf(buffer, sizeof(buffer), "%s [CONFIG FILE]\n", argv[0]);
+			printer::inst()->print_str(buffer);
+			snprintf(buffer, sizeof(buffer), "%s -c [CONFIG FILE]\n", argv[0]);
+			printer::inst()->print_str(buffer);
+			printer::inst()->print_str("\nBenchmark mode:\n");
+			snprintf(buffer, sizeof(buffer), "%s benchmark_mode [CONFIG FILE]\n", argv[0]);
+			printer::inst()->print_str(buffer);
+			snprintf(buffer, sizeof(buffer), "%s -b [CONFIG FILE]\n", argv[0]);
+			printer::inst()->print_str(buffer);
+			printer::inst()->print_str("-------------------------------------------------------------------\n");
 			win_exit();
 			return 0;
 		}
@@ -90,7 +110,7 @@ int main(int argc, char *argv[])
 		{
 			sFilename = argv[2];
 		}
-		else if(argc >= 3 && strcasecmp(argv[1], "benchmark_mode") == 0)
+		else if ( (argc >= 3 && strcasecmp(argv[1], "benchmark_mode") == 0) || (argc >= 3 && strcasecmp(argv[1], "-b") == 0) )
 		{
 			sFilename = argv[2];
 			benchmark_mode = true;
@@ -134,16 +154,15 @@ int main(int argc, char *argv[])
 			win_exit();
 			return 0;
 		}
+		snprintf(buffer, sizeof(buffer), "HTTP daemon running on port %d\n\n", jconf::inst()->GetHttpdPort());
+		printer::inst()->print_str(buffer);
+	}
+	else
+	{
+		printer::inst()->print_str("HTTP daemon not running\n\n");
 	}
 #endif
 
-	printer::inst()->print_str("-------------------------------------------------------------------\n");
-	printer::inst()->print_str( XMR_STAK_NAME" " XMR_STAK_VERSION " mining software, NVIDIA Version.\n");
-	printer::inst()->print_str("NVIDIA mining code was written by KlausT and psychocrypt.\n");
-	printer::inst()->print_str("Brought to you by fireice_uk under GPLv3.\n\n");
-	char buffer[64];
-	snprintf(buffer, sizeof(buffer), "Configurable dev donation level is set to %.1f %%\n\n", fDevDonationLevel * 100.0);
-	printer::inst()->print_str(buffer);
 	printer::inst()->print_str("You can use following keys to display reports:\n");
 	printer::inst()->print_str("'h' - hashrate\n");
 	printer::inst()->print_str("'r' - results\n");
