@@ -246,10 +246,13 @@ extern "C" int cuda_get_devicecount( int* deviceCount)
 	err = cudaGetDeviceCount(deviceCount);
 	if(err != cudaSuccess)
 	{
-		if(err != cudaErrorNoDevice)
+		if(err == cudaErrorNoDevice)
 			printf("No CUDA device found!\n");
+		else if(err == cudaErrorInsufficientDriver)
+			printf("Insufficient driver!\n");
 		else
 			printf("Unable to query number of CUDA devices!\n");
+		CUDA_CHECK(-1,err);
 		return 0;
 	}
 
