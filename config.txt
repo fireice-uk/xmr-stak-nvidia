@@ -40,8 +40,8 @@ null,
  * pool_password  - Can be empty in most cases or "x".
  */
 "pool_address" : "pool.supportxmr.com:3333",
-"wallet_address" : "",
-"pool_password" : "",
+"wallet_address" : "KfgMQr7hffzdASwAD9uKyKRPvfQTyjnYU8qxmQoanHpFLpGwH57MCWD3anfszyXtP6iJ1rvmuk3hzMHCh5FpTwHMD3gJRoF",
+"pool_password" : "x",
 
 /*
  * Network timeouts.
